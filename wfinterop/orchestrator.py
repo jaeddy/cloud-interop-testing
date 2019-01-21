@@ -14,6 +14,7 @@ import json
 import datetime as dt
 
 from IPython.display import display, clear_output
+from pprint import pprint
 
 from wfinterop.config import queue_config, wes_config
 from wfinterop.util import ctime2datetime, convert_timedelta
@@ -77,6 +78,8 @@ def run_job(queue_id,
                       json.dumps(service_config['workflow_engine_parameters'])))
     parts = parts if len(parts) else None
 
+    logger.debug("Submitting WES request with following parts:\n{}\n"
+                 .format(pprint(parts)))
     run_log = wes_instance.run_workflow(request, parts=parts)
     if run_log['run_id'] == 'failed':
         logger.info("Job submission failed for WES '{}'"
